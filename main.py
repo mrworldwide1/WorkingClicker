@@ -2,13 +2,6 @@ import pygame
 import sys
 import random
 
-# button class - surface and rectangle combined, must be placed in a group
-class Button(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(buttonName).convert_alpha()
-        self.rect = self.image.get_rect
-
 pygame.init()
 
 # setup game window
@@ -19,42 +12,45 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 maxFPS = 60
 
 # define variables
-buttonWidth = 200
-buttonHeight = 200
 ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
 bgColour = "linen"
 buttonName = "button.png"
 
+# button's surface and rectangle combined, must be placed in a group
+class Button(pygame.sprite.Sprite):
+    def __init__(self, width, height):
+        pygame.sprite.Sprite.__init__(self) # ensure the class inherits from parent Sprite class
+        self.image = pygame.image.load(buttonName).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (width,height))
+        self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2))
+
 # surfaces are like layers in photoshop! you fill each surface with stuff like text/color/images
 counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
-textSurface = counterFont.render('my game', False, 'orangered')
+textSurface = counterFont.render('clicks', False, 'orangered')
 
-bgSurface = pygame.Surface((screenWidth, screenHeight))
-bgSurface.fill(bgColour)
-
-buttonSurface = pygame.image.load(buttonName).convert_alpha()
-buttonSurface = pygame.transform.scale(buttonSurface, (200,200))
+# create sprite group for lone button
+buttons = pygame.sprite.GroupSingle()
+buttons.add(Button(250, 250))
 
 
 # Core part that actually runs everything
 def main():
-    # random music
     ost = pygame.mixer.music
     ost.load(ostNames[random.randint(0,1)])
     ost.play()
 
     # entire game runs inside this loop, keeps the code running forever
     while True:
-        # check each frame for events that occur
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
         # place surfaces onto screen surface
-        screen.blit(bgSurface, (0,0))
-        screen.blit(buttonSurface, (400,200))
+        screen.fill(bgColour)
         screen.blit(textSurface, (400, 100))
+        # draw buttons sprite group
+        buttons.draw(screen)
 
         # update everything
         pygame.display.update()
