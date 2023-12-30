@@ -10,19 +10,22 @@ screenHeight = 500
 pygame.display.set_caption('Clicker')
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 maxFPS = 60
-
-# define variables
-ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
-bgColour = "linen"
-buttonName = "button.png"
+icon = pygame.image.load("button.png").convert_alpha()
+pygame.display.set_icon(icon)
 
 # button's surface and rectangle combined, must be placed in a group
 class Button(pygame.sprite.Sprite):
     def __init__(self, width, height):
         pygame.sprite.Sprite.__init__(self) # ensure the class inherits from parent Sprite class
+        buttonName = "button.png"
         self.image = pygame.image.load(buttonName).convert_alpha()
         self.image = pygame.transform.scale(self.image, (width,height))
-        self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2))
+        self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
+
+# define variables
+ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
+bgColour = "linen"
+
 
 # surfaces are like layers in photoshop! you fill each surface with stuff like text/color/images
 counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
@@ -30,7 +33,7 @@ textSurface = counterFont.render('clicks', False, 'orangered')
 
 # create sprite group for lone button
 buttons = pygame.sprite.GroupSingle()
-buttons.add(Button(250, 250))
+buttons.add(Button(200, 200))
 
 
 # Core part that actually runs everything
@@ -48,7 +51,7 @@ def main():
 
         # place surfaces onto screen surface
         screen.fill(bgColour)
-        screen.blit(textSurface, (400, 100))
+        screen.blit(textSurface, (430, 80))
         # draw buttons sprite group
         buttons.draw(screen)
 
