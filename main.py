@@ -2,6 +2,13 @@ import pygame
 import sys
 import random
 
+# button class - surface and rectangle combined, must be placed in a group
+class Button(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(buttonName).convert_alpha()
+        self.rect = self.image.get_rect
+
 pygame.init()
 
 # setup game window
@@ -20,6 +27,7 @@ buttonName = "button.png"
 
 # surfaces are like layers in photoshop! you fill each surface with stuff like text/color/images
 counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
+textSurface = counterFont.render('my game', False, 'orangered')
 
 bgSurface = pygame.Surface((screenWidth, screenHeight))
 bgSurface.fill(bgColour)
@@ -27,7 +35,6 @@ bgSurface.fill(bgColour)
 buttonSurface = pygame.image.load(buttonName).convert_alpha()
 buttonSurface = pygame.transform.scale(buttonSurface, (200,200))
 
-textSurface = counterFont.render('my game', False, 'orangered')
 
 # Core part that actually runs everything
 def main():
