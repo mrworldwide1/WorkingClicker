@@ -18,16 +18,20 @@ ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
 bgColour = "linen"
 buttonName = "button.png"
 
-# surfaces are like layers in photoshop! you fill each layer with stuff like text/color/images
-# then put the layers on the canvas. here, layers are called Surfaces
-bg = pygame.Surface((screenWidth, screenHeight))
-bg.fill(bgColour)
+# surfaces are like layers in photoshop! you fill each surface with stuff like text/color/images
+counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
+
+bgSurface = pygame.Surface((screenWidth, screenHeight))
+bgSurface.fill(bgColour)
 
 buttonSurface = pygame.image.load(buttonName).convert_alpha()
 buttonSurface = pygame.transform.scale(buttonSurface, (200,200))
 
+textSurface = counterFont.render('my game', False, 'orangered')
+
 # Core part that actually runs everything
 def main():
+    # random music
     ost = pygame.mixer.music
     ost.load(ostNames[random.randint(0,1)])
     ost.play()
@@ -41,8 +45,9 @@ def main():
                 sys.exit()
 
         # place surfaces onto screen surface
-        screen.blit(bg, (0,0))
+        screen.blit(bgSurface, (0,0))
         screen.blit(buttonSurface, (400,200))
+        screen.blit(textSurface, (400, 100))
 
         # update everything
         pygame.display.update()
