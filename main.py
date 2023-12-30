@@ -7,9 +7,9 @@ pygame.init()
 # setup game window
 screenWidth = 1000
 screenHeight = 500
-pygame.display.set_caption('Clicker')
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 maxFPS = 60
+pygame.display.set_caption('Clicker')
 icon = pygame.image.load("button.png").convert_alpha()
 pygame.display.set_icon(icon)
 
@@ -21,6 +21,12 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.image.load(buttonName).convert_alpha()
         self.image = pygame.transform.scale(self.image, (width,height))
         self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
+    
+    def clicked(self):
+        
+
+    def update(self):
+        self.clicked()
 
 # define variables
 ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
