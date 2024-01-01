@@ -2,18 +2,23 @@ import pygame
 import sys
 import random
 
-# basic setup
 pygame.init()
+
+# game window
 screenWidth = 1000
 screenHeight = 500
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 icon = pygame.image.load("button.png").convert_alpha()
-counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
 pygame.display.set_caption('Clicker')
 pygame.display.set_icon(icon)
+
+# fps limiter
 clock = pygame.time.Clock()
 
-# define variables
+# game-wide font
+font = pygame.font.Font('PixelifySans-Bold.ttf', 50)
+
+# just for organization
 ostNames = ["xDeviruchi - Title Theme .wav", "xDeviruchi - Minigame .wav"]
 bgColour = "linen"
 clicks = 0
@@ -21,7 +26,7 @@ clicks = 0
 # button's surface and rectangle combined, must be placed in a group
 class Button(pygame.sprite.Sprite):
     def __init__(self, width, height):
-        pygame.sprite.Sprite.__init__(self) # ensure the class inherits from parent Sprite class
+        super().__init__()
         buttonName = "button.png"
         self.lock = False
         self.image = pygame.image.load(buttonName).convert_alpha()
@@ -41,12 +46,16 @@ class Button(pygame.sprite.Sprite):
         self.clicked()
 
 def counter():
-    textSurface = counterFont.render(f"{clicks}", False, 'orangered')
-    screen.blit(textSurface, (430, 80))
+    textSurface = font.render(f"{clicks}", False, 'orangered')
+    textRect = textSurface.get_rect(center = (screenWidth/2, screenHeight/4))
+    screen.blit(textSurface, (textRect))
+    print(textRect)
 
-# button sprite
+
+# sprite groups
 buttons = pygame.sprite.GroupSingle()
-buttons.add(Button(200, 200))
+button1 = Button(200, 200)
+buttons.add(button1)
 
 ost = pygame.mixer.music
 ost.load(ostNames[random.randint(0,1)])
