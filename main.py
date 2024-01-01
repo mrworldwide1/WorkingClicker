@@ -34,16 +34,18 @@ class Button(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
     
     def clicked(self):
-        if pygame.mouse.get_pressed()[0]:
-            if self.lock == False:
-                self.lock = True
-                global clicks # variable scope
-                clicks += 1
-        elif not pygame.mouse.get_pressed()[0]:
-            self.lock = False
+        pass
+        # if pygame.mouse.get_pressed()[0]:
+        #     if self.lock == False:
+        #         self.lock = True
+        #         global clicks # variable scope
+        #         clicks += 1
+        # elif not pygame.mouse.get_pressed()[0]:
+        #     self.lock = False
 
     def update(self):
-        self.clicked()
+        pass
+        # self.clicked()
 
 def counter():
     textSurface = font.render(f"{clicks}", False, 'orangered')
@@ -57,6 +59,7 @@ buttons = pygame.sprite.GroupSingle()
 button1 = Button(200, 200)
 buttons.add(button1)
 
+# music
 ost = pygame.mixer.music
 ost.load(ostNames[random.randint(0,1)])
 ost.play()
@@ -67,12 +70,14 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            clicks += 1
+
 
     # place surfaces onto screen surface
     screen.fill(bgColour)
     counter()
     buttons.draw(screen)
-    buttons.update()
 
     # update everything
     pygame.display.update()
