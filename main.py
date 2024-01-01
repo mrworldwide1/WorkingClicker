@@ -4,14 +4,13 @@ import random
 
 pygame.init()
 
-# setup game window
+# basic setup
 screenWidth = 1000
 screenHeight = 500
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 pygame.display.set_caption('Clicker')
 icon = pygame.image.load("button.png").convert_alpha()
 pygame.display.set_icon(icon)
-
 clock = pygame.time.Clock()
 
 # define variables
@@ -30,7 +29,6 @@ class Button(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
     
     def clicked(self):
-        # locking mechanism to prevent holding down left click
         if pygame.mouse.get_pressed()[0]:
             if self.lock == False:
                 self.lock = True
@@ -46,35 +44,28 @@ class Button(pygame.sprite.Sprite):
 counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
 textSurface = counterFont.render(f"{clicks}", False, 'orangered')
 
-# sprite group for lone button
+# button sprite
 buttons = pygame.sprite.GroupSingle()
 buttons.add(Button(200, 200))
 
 # Core part that actually runs everything
-def main():
-    ost = pygame.mixer.music
-    ost.load(ostNames[random.randint(0,1)])
-    ost.play()
+ost = pygame.mixer.music
+ost.load(ostNames[random.randint(0,1)])
+ost.play()
 
-    # entire game runs inside this loop, keeps the code running forever
-    while True:
-        # poll for events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+# entire game runs inside this loop, keeps the code running forever
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
+    # place surfaces onto screen surface
+    screen.fill(bgColour)
+    screen.blit(textSurface, (430, 80))
+    buttons.draw(screen)
+    buttons.update() # calls update method inside Button class, thus running other methods
 
-        # place surfaces onto screen surface
-        screen.fill(bgColour)
-        screen.blit(textSurface, (430, 80))
-        # draw buttons sprite group
-        buttons.draw(screen)
-        buttons.update() # calls update method inside Button class, in turn running other methods
-
-        # update everything
-        pygame.display.update()
-        clock.tick(60)
-
-
-main()
+    # update everything
+    pygame.display.update()
+    clock.tick(60)
