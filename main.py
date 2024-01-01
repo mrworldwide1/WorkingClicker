@@ -55,7 +55,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if pygame.Rect.collidepoint(pygame.mouse.get_pos) and event.type == pygame.MOUSEBUTTONDOWN:
+        if buttons[0].collidepoint(pygame.mouse.get_pos) and event.type == pygame.MOUSEBUTTONDOWN:
             clicks += 1
 
 
