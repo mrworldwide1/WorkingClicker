@@ -32,27 +32,12 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.image.load(buttonName).convert_alpha()
         self.image = pygame.transform.scale(self.image, (width,height))
         self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
-    
-    def clicked(self):
-        pass
-        # if pygame.mouse.get_pressed()[0]:
-        #     if self.lock == False:
-        #         self.lock = True
-        #         global clicks # variable scope
-        #         clicks += 1
-        # elif not pygame.mouse.get_pressed()[0]:
-        #     self.lock = False
-
-    def update(self):
-        pass
-        # self.clicked()
 
 def counter():
     textSurface = font.render(f"{clicks}", False, 'orangered')
     textRect = textSurface.get_rect(center = (screenWidth/2, screenHeight/4))
     screen.blit(textSurface, (textRect))
     print(textRect)
-
 
 # sprite groups
 buttons = pygame.sprite.GroupSingle()
