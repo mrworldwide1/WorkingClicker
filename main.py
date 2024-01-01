@@ -1,3 +1,4 @@
+from typing import Any
 import pygame
 import sys
 import random
@@ -33,6 +34,19 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (width,height))
         self.rect = self.image.get_rect(center = (screenWidth/2, screenHeight/2)) # place rectangle in center of screen
 
+    def clicked(self):
+        if pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos):
+            if self.lock == False:
+                self.lock = True
+                global clicks # variable scope
+                clicks += 1
+        elif not pygame.mouse.get_pressed()[0]:
+            self.lock = False
+    
+    def update(self):
+        self.clicked()
+
+
 def counter():
     textSurface = font.render(f"{clicks}", False, 'orangered')
     textRect = textSurface.get_rect(center = (screenWidth/2, screenHeight/4))
@@ -55,8 +69,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if buttons[0].collidepoint(pygame.mouse.get_pos) and event.type == pygame.MOUSEBUTTONDOWN:
-            clicks += 1
 
 
     # place surfaces onto screen surface
