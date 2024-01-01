@@ -2,14 +2,14 @@ import pygame
 import sys
 import random
 
-pygame.init()
-
 # basic setup
+pygame.init()
 screenWidth = 1000
 screenHeight = 500
 screen = pygame.display.set_mode((screenWidth, screenHeight))
-pygame.display.set_caption('Clicker')
 icon = pygame.image.load("button.png").convert_alpha()
+counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
+pygame.display.set_caption('Clicker')
 pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 
@@ -32,7 +32,7 @@ class Button(pygame.sprite.Sprite):
         if pygame.mouse.get_pressed()[0]:
             if self.lock == False:
                 self.lock = True
-                print(clicks)
+                global clicks # variable scope
                 clicks += 1
         elif not pygame.mouse.get_pressed()[0]:
             self.lock = False
@@ -40,15 +40,14 @@ class Button(pygame.sprite.Sprite):
     def update(self):
         self.clicked()
 
-# surfaces are like layers in photoshop! you fill each surface with stuff like text/color/images
-counterFont = pygame.font.Font('PixelifySans-Bold.ttf', 50)
-textSurface = counterFont.render(f"{clicks}", False, 'orangered')
+def counter():
+    textSurface = counterFont.render(f"{clicks}", False, 'orangered')
+    screen.blit(textSurface, (430, 80))
 
 # button sprite
 buttons = pygame.sprite.GroupSingle()
 buttons.add(Button(200, 200))
 
-# Core part that actually runs everything
 ost = pygame.mixer.music
 ost.load(ostNames[random.randint(0,1)])
 ost.play()
@@ -62,9 +61,9 @@ while True:
 
     # place surfaces onto screen surface
     screen.fill(bgColour)
-    screen.blit(textSurface, (430, 80))
+    counter()
     buttons.draw(screen)
-    buttons.update() # calls update method inside Button class, thus running other methods
+    buttons.update()
 
     # update everything
     pygame.display.update()
